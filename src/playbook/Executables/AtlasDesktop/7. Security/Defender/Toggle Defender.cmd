@@ -1,22 +1,9 @@
 <# : batch portion
 @echo off
 
-if "%~1" == "-Help" (goto help) else (if "%~1" == "-help" (goto help) else (if "%~1" == "/h" (goto help) else (goto main)))
-
-:help
-echo Usage = Toggle Defender.cmd [-Help] [-Enable] [-Disable]
-exit /b
-
-:main
-if "%*" == "" (
-	fltmc > nul 2>&1 || (
-		echo Administrator privileges are required.
-		PowerShell Start -Verb RunAs '%0' 2> nul || (
-			echo You must run this script as admin.
-			pause & exit /b 1
-		)
-		exit /b
-	)
+whoami /user | find /i "S-1-5-18" > nul 2>&1 || (
+	call RunAsTI.cmd "%~f0" %*
+	exit /b
 )
 
 set args= & set "args1=%*"
@@ -32,7 +19,7 @@ function PauseNul ($message = "Press any key to exit... ") {
 }
 
 $packages = (Get-WindowsPackage -online | Where-Object { $_.PackageName -like "*NoDefender*" }).PackageName
-if (!($?)) {
+if (!$?) {
 	Write-Host "Failed to get packages!" -ForegroundColor Red
 	PauseNul; exit 1
 }
