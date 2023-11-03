@@ -200,6 +200,9 @@ updates:
   - target_component: Microsoft-Windows-SenseClient-Deployment
     target_arch: amd64
     version: 38655.38527.65535.65535
+  - target_component: Microsoft-Windows-SenseClient-Deployment-LanguagePack
+    target_arch: amd64
+    version: 38655.38527.65535.65535
   - target_component: Windows-SenseClient-MDM
     target_arch: amd64
     version: 38655.38527.65535.65535
